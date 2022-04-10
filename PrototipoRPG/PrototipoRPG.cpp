@@ -36,8 +36,8 @@ bool morreu(MORREU x) {
 	return false;
 }
 
-template <typename AGRESSOR, typename ALVO>
-int ataque(AGRESSOR x, ALVO y) {
+template <typename T, typename T2>
+int ataque(T x, T2 y) {
 	return y.hp - (rand() % (x.arma.max + 1 - x.arma.min) + x.arma.min);
 }
 
@@ -51,14 +51,16 @@ void jogarFase(Jogador& jogador, Fase fase) { // Jogador por referência para sal
 		inimigo.hp = fase.ini[i].hp;
 		cout << "Encontrou o inimigo " << fase.ini[i].nome << "!\n\n";
 
-		while (morreu(inimigo) == false && morreu(jogador) == false) {
+		do {
 			inimigo.hp = ataque(jogador, inimigo);
 			jogador.hp = ataque(inimigo, jogador);
 			
 			cout << "Jogador atacou: " << fase.ini[i].nome << " ficou com " << inimigo.hp << " de vida.\n";
 			cout << fase.ini[i].nome << " atacou: " << "Jogador ficou com " << jogador.hp << " de vida. ";
 			system("pause");
-		}
+
+		} while (morreu(inimigo) == false && morreu(jogador) == false);
+		
 		if (morreu(jogador)) {
 			cout << "\nMorreu...\n";
 			return;
